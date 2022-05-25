@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import products from "./routes/products.js";
 import admin from "./routes/admin.js";
+import firebaseConfig from "./firebaseConfig.js";
 
 const app = express();
 
