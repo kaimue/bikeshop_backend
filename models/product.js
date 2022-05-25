@@ -11,6 +11,6 @@ const productSchema = new Schema({
   categorie: String,
 });
 
-const user = mongoose.model("product", productSchema);
+const product = mongoose.model("product", productSchema);
 
-export default products;
+export default product;
