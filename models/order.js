@@ -7,6 +7,6 @@ const orderSchema = new Schema({
   totalPrice: Number,
 });
 
-const user = mongoose.model("order", orderSchema);
+const order = mongoose.model("order", orderSchema);
 
 export default order;
