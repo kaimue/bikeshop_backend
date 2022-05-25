@@ -5,8 +5,7 @@ const productSchema = new Schema({
   description: String,
   price: Number,
   img: {
-    data: Buffer,
-    contentType: String,
+    //reference to firebase
   },
   categorie: String,
 });
