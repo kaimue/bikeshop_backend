@@ -11,6 +11,6 @@ const productSchema = new Schema({
   categorie: String,
 });
 
-const product = model("Product", productSchema);
+const productModel = model("Product", productSchema);
 
-export default product;
+export default productModel;

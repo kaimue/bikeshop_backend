@@ -5,8 +5,9 @@ const orderSchema = new Schema({
   products: Array,
   shippingCosts: Number,
   totalPrice: Number,
+  userId: String,
 });
 
-const order = model("Order", orderSchema);
+const orderModel = model("Order", orderSchema);
 
-export default order;
+export default orderModel;
