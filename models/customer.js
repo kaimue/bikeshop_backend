@@ -1,23 +1,26 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose;
+const { Schema, model } = mongoose;
 
 const customerSchema = new Schema(
   {
-    username: String,
-    firstName: String,
-    lastName: String,
-    email: String,
-    userId: String,
-    address: {
-      city: String,
-      zipCode: Number,
-      street: String,
-      houseNumber: String,
-    },
+    email: { type: String, require: true, unique: true },
+    password: { type: String, require: true },
+    createdAt: { type: Date, default: Date.now },
+    isActive: { type: Boolean, default: true },
+    //username: { type: String, require: true },
+    //firstName: { type: String, require: true },
+    //lastName: { type: String, require: true },
+    //userId: { type: String, require: true, unique: true },
+    //address: {
+    //  city: { type: String, require: true },
+    //  zipCode: { type: String, require: true },
+    //  street: { type: String, require: true },
+    //  houseNumber: { type: String, require: true },
+    //},
   },
   { timestamps: true }
 );
 
-const customer = mongoose.model("Customer", customerSchema);
+const customer = model("Customer", customerSchema);
 
 export default customer;

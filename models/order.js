@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose;
+const { Schema, model } = mongoose;
 
 const orderSchema = new Schema({
   products: Array,
@@ -7,6 +7,6 @@ const orderSchema = new Schema({
   totalPrice: Number,
 });
 
-const order = mongoose.model("order", orderSchema);
+const order = model("Order", orderSchema);
 
 export default order;
