@@ -22,7 +22,7 @@ const customerSchema = new Schema(
 );
 
 // customerSchema.pre("save", (next) => {
-//   email = email.toLowerCase();
+//   this.email = this.email.toLowerCase();
 //   next();
 // });
 

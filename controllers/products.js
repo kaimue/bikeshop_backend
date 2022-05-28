@@ -1,11 +1,14 @@
 import productModel from "../models/product.js";
+import { ErrorResponse } from "../utils/errorResponse.js";
 
 const getProducts = async (req, res) => {
   try {
     const products = await productModel.find({});
+    if (!products) throw new ErrorResponse("No products found!", 404);
     res.json(products);
   } catch (error) {
-    res.status(500).send("Error getting products");
+    res.status(500);
+    next(error);
   }
 };
 
@@ -34,6 +37,15 @@ const postProduct = async (req, res, next) => {
   }
 };
 
+const updateProduct = async (req, res, next) => {
+  try {
+    const { body } = req;
+    const product = await productModel.findOneAndUpdate(id, body);
+    res.send("New product got created");
+  } catch (err) {
+    res.status(500).send("something went wrong");
+  }
+};
 const deleteProduct = async (req, res, next) => {
   try {
     const {

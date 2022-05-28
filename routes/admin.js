@@ -11,4 +11,6 @@ router.post("/picture-upload", imageUploader.single("image"), (req, res) => {
 
 router.post("/product-upload", postProduct);
 
+
+
 export default router;
