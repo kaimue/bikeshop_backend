@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-const { Schema, model } = mongoose;
+const { Schema, model, Types } = mongoose;
 
 const orderSchema = new Schema({
   products: Array,
   shippingCosts: Number,
   totalPrice: Number,
-  userId: String,
+  userId: { type: Schema.Types.ObjectId, ref: "Customer" },
 });
 
 const orderModel = model("Order", orderSchema);

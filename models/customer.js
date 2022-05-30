@@ -7,10 +7,9 @@ const customerSchema = new Schema(
     password: { type: String, require: true, select: false },
     createdAt: { type: Date, default: Date.now },
     isActive: { type: Boolean, default: true },
-    //username: { type: String, require: true },
     //firstName: { type: String, require: true },
     //lastName: { type: String, require: true },
-    userId: { type: String, default: Math.floor(Math.random() * 1000000) },
+    userId: { type: String, default: Math.random() * 10000000 },
     //address: {
     //  city: { type: String, require: true },
     //  zipCode: { type: String, require: true },

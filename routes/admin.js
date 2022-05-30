@@ -6,11 +6,10 @@ const router = express.Router();
 
 router.post("/picture-upload", imageUploader.single("image"), (req, res) => {
   if (!req.file) return res.status(400).json({ error: "Please upload a file" });
-  res.json({ location: req.file.publicUrl });
+  const imgUrl = res.json({ location: req.file.publicUrl });
+  postProduct;
 });
 
-router.post("/product-upload", postProduct);
-
-
+router.post("/product-upload", imageUploader.single("image"), postProduct);
 
 export default router;
