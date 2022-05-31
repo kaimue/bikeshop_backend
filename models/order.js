@@ -3,7 +3,7 @@ const { Schema, model, Types } = mongoose;
 
 const orderSchema = new Schema({
   products: Array,
-  shippingCosts: Number,
+  shippingCosts: 4.99,
   totalPrice: Number,
   userId: { type: Schema.Types.ObjectId, ref: "Customer" },
 });

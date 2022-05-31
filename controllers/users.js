@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { ErrorResponse } from "../utils/errorResponse.js";
 
-const getUser = async (req, res) => {
+const getUser = async (req, res, next) => {
   try {
     const customer = await customerModel.find({});
     res.json(customer);

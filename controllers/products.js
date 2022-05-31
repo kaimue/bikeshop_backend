@@ -1,7 +1,7 @@
 import productModel from "../models/product.js";
 import { ErrorResponse } from "../utils/errorResponse.js";
 
-const getProducts = async (req, res) => {
+const getProducts = async (req, res, next) => {
   try {
     const products = await productModel.find({});
     if (!products) throw new ErrorResponse("No products found!");
@@ -11,7 +11,7 @@ const getProducts = async (req, res) => {
   }
 };
 
-const searchProducts = async (req, res) => {
+const searchProducts = async (req, res, next) => {
   try {
     const { q } = req.query;
     const product = await productModel.find({
@@ -24,7 +24,7 @@ const searchProducts = async (req, res) => {
   }
 };
 
-const getProductById = async (req, res) => {
+const getProductById = async (req, res, next) => {
   try {
     const { q } = req.query;
     const product = await productModel.find({
@@ -37,20 +37,20 @@ const getProductById = async (req, res) => {
   }
 };
 
-const getProductsByCategorie = async (req, res) => {
+const getProductsByCategorie = async (req, res, next) => {
   try {
     const { q } = req.query;
     const products = await productModel.find({
-      categorie: { categorie: q },
+      categorie: { $regex: q, $options: "$i" },
     });
-    if (!product) throw new ErrorResponse("No product found!");
+    if (!products) throw new ErrorResponse("No product found!");
     res.json(products);
   } catch (error) {
     next(error);
   }
 };
 
-const getRandomProducts = async (req, res) => {
+const getRandomProducts = async (req, res, next) => {
   try {
     const products = await productModel.aggregate([{ $sample: { size: 2 } }]);
     if (!products) throw new ErrorResponse("No products found!");
