@@ -11,7 +11,7 @@ const getProducts = async (req, res) => {
   }
 };
 
-const getProductByTitle = async (req, res) => {
+const searchProducts = async (req, res) => {
   try {
     const { q } = req.query;
     const product = await productModel.find({
@@ -24,11 +24,47 @@ const getProductByTitle = async (req, res) => {
   }
 };
 
+const getProductById = async (req, res) => {
+  try {
+    const { q } = req.query;
+    const product = await productModel.find({
+      _id: { _id: q },
+    });
+    if (!product) throw new ErrorResponse("No product found!");
+    res.json(product);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getProductsByCategorie = async (req, res) => {
+  try {
+    const { q } = req.query;
+    const products = await productModel.find({
+      categorie: { categorie: q },
+    });
+    if (!product) throw new ErrorResponse("No product found!");
+    res.json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getRandomProducts = async (req, res) => {
+  try {
+    const products = await productModel.aggregate([{ $sample: { size: 2 } }]);
+    if (!products) throw new ErrorResponse("No products found!");
+    res.json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const postProduct = async (req, res, next) => {
   try {
     if (!req.file) throw new ErrorResponse("Please upload a file!");
     const {
-      body: { title, description },
+      body: { title, description, price, categorie },
       file: { publicUrl },
     } = req;
     console.log(req);
@@ -36,6 +72,8 @@ const postProduct = async (req, res, next) => {
       title,
       description,
       imgUrl: publicUrl,
+      price,
+      categorie,
     });
     res.send("New product got created");
   } catch (error) {
@@ -65,4 +103,13 @@ const deleteProduct = async (req, res, next) => {
   }
 };
 
-export { getProducts, getProductByTitle, postProduct, deleteProduct };
+export {
+  getRandomProducts,
+  getProducts,
+  getProductsByCategorie,
+  searchProducts,
+  getProductById,
+  postProduct,
+  deleteProduct,
+  updateProduct,
+};
