@@ -13,9 +13,9 @@ export const verifyToken = (req, res, next) => {
       req.user = decoded;
       next();
     } catch (err) {
-      res.status(403).send(err.message);
+      res.status(401).json({ error: err.message });
     }
   } else {
-    res.status(403).send("You need to be logged in to see this page");
+    res.status(401).json({ error: "Please login" });
   }
 };

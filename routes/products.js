@@ -1,5 +1,9 @@
 import express from "express";
+import imageUploader from "../middlewares/imageUploader.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
+import { verifyAdmin } from "../middlewares/verifyAdmin.js";
 import {
+  postProduct,
   getRandomProducts,
   getProducts,
   searchProducts,
@@ -9,14 +13,17 @@ import {
 
 const router = express.Router();
 
-router.route("/products").get(getProducts);
+router
+  .route("/")
+  .get(getProducts)
+  .post(imageUploader.single("image"), postProduct);
 
-router.route("/categorie").get(getProductsByCategorie);
+router.route("/single/:id").get(getProductById);
 
-router.route("/products/byId").get(getProductById);
+router.route("/categorie/:categorie").get(getProductsByCategorie);
 
 router.route("/randomProducts").get(getRandomProducts);
 
-router.route("/products/search").get(searchProducts);
+router.route("/search").get(searchProducts);
 
 export default router;

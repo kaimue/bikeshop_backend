@@ -26,10 +26,10 @@ const searchProducts = async (req, res, next) => {
 
 const getProductById = async (req, res, next) => {
   try {
-    const { q } = req.query;
-    const product = await productModel.find({
-      _id: { _id: q },
-    });
+    const {
+      params: { id },
+    } = req;
+    const product = await productModel.findById({ _id: id });
     if (!product) throw new ErrorResponse("No product found!");
     res.json(product);
   } catch (error) {
@@ -39,9 +39,11 @@ const getProductById = async (req, res, next) => {
 
 const getProductsByCategorie = async (req, res, next) => {
   try {
-    const { q } = req.query;
+    const {
+      params: { categorie },
+    } = req;
     const products = await productModel.find({
-      categorie: { $regex: q, $options: "$i" },
+      categorie: { $regex: categorie, $options: "$i" },
     });
     if (!products) throw new ErrorResponse("No product found!");
     res.json(products);

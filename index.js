@@ -2,27 +2,17 @@ import "dotenv/config";
 import db from "./db.js";
 import express from "express";
 import cors from "cors";
-import admin from "./routes/admin.js";
+import products from "./routes/products.js";
 import user from "./routes/user.js";
-import { verifyToken } from "./middlewares/verifyToken.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { ErrorResponse } from "./utils/errorResponse.js";
-import getRandomProducts from "./routes/products.js";
-import getProducts from "./routes/products.js";
-import getProductById from "./routes/products.js";
-import getProductsByCategorie from "./routes/products.js";
+
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
-app.use(
-  "/",
-  getRandomProducts,
-  getProducts,
-  getProductById,
-  getProductsByCategorie
-);
-app.use("/admin", admin);
+
+app.use("/products", products);
 app.use("/user", user);
 
 app.use("*", (req, res, next) => {
