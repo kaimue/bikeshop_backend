@@ -6,7 +6,6 @@ const postOrders = async (req, res, next) => {
     const {
       body: { products, userId },
     } = req;
-    console.log(req);
     const order = await orderModel.create({
       products,
       userId,
