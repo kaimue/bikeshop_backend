@@ -69,7 +69,6 @@ const postProduct = async (req, res, next) => {
       body: { title, description, price, categorie },
       file: { publicUrl },
     } = req;
-    console.log(req);
     const product = await productModel.create({
       title,
       description,
