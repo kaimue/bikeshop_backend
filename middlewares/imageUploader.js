@@ -7,7 +7,7 @@ const storage = FirebaseStorage({
   credentials: {
     clientEmail: process.env.FIREBASE_CLIENTEMAIL,
 
-    privateKey: JSON.parse(process.env.FIREBASE_PRIVATEKEY),
+    privateKey: process.env.FIREBASE_PRIVATEKEY,
 
     projectId: process.env.FIREBASE_PROJECTID,
   },
