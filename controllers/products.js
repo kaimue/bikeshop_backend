@@ -37,6 +37,19 @@ const getProductById = async (req, res, next) => {
   }
 };
 
+const getMoreProductById = async (req, res, next) => {
+  try {
+    const {
+      params: { id },
+    } = req;
+    const product = await productModel.findById({ _id: id });
+    if (!product) throw new ErrorResponse("No product found!");
+    res.json(product);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getProductsByCategorie = async (req, res, next) => {
   try {
     const {
@@ -110,6 +123,7 @@ export {
   getProductsByCategorie,
   searchProducts,
   getProductById,
+  getMoreProductById,
   postProduct,
   deleteProduct,
   updateProduct,
