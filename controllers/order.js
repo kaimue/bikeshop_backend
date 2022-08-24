@@ -21,7 +21,7 @@ const getOrdersByUserId = async (req, res, next) => {
     const {
       params: { userId },
     } = req;
-    const products = await productModel.find({
+    const products = await orderModel.find({
       userId,
     });
     if (!products) throw new ErrorResponse("No product found!");

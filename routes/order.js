@@ -3,8 +3,8 @@ import { getOrdersByUserId, postOrders } from "../controllers/order.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import router from "./products.js";
 
-router.post("/order", verifyToken, postOrders);
+router.post("/order", postOrders);
 
-router.get("/:id", verifyToken, getOrdersByUserId);
+router.get("/:id", getOrdersByUserId);
 
 export default router;

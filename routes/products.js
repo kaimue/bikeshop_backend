@@ -10,12 +10,14 @@ import {
   getProductById,
   getProductsByCategorie,
 } from "../controllers/products.js";
+import paginated from "../middlewares/pagination.js";
+import productModel from "../models/product.js";
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(getProducts)
+  .get(paginated(productModel), getProducts)
   .post(imageUploader.single("image"), postProduct);
 
 router.route("/single/:id").get(getProductById);

@@ -1,24 +1,59 @@
 import productModel from "../models/product.js";
 import { ErrorResponse } from "../utils/errorResponse.js";
 
+// const getProducts = async (req, res, next) => {
+//   try {
+//     const products = await productModel.find({});
+//     if (!products) throw new ErrorResponse("No products found!");
+//     res.json(products);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
 const getProducts = async (req, res, next) => {
-  try {
-    const products = await productModel.find({});
-    if (!products) throw new ErrorResponse("No products found!");
-    res.json(products);
-  } catch (error) {
-    next(error);
-  }
+  res.json(res.paginated);
 };
 
+// const searchProducts = async (req, res, next) => {
+//   try {
+//     const { q } = req.query;
+//     const product = await productModel.find({
+//       title: { $regex: q, $options: "$i" },
+//     });
+//     if (!product) throw new ErrorResponse("No product found!");
+//     res.json(product);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
 const searchProducts = async (req, res, next) => {
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+  const title = req.query.title;
+  const productCount = await productModel.countDocuments({
+    title: { $regex: title, $options: "$i" },
+  });
+  const totalPages = Math.ceil(productCount / limit);
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+
+  console.log(startIndex, endIndex);
+
+  const results = {};
+  results.totalPages = totalPages;
   try {
-    const { q } = req.query;
-    const product = await productModel.find({
-      title: { $regex: q, $options: "$i" },
-    });
-    if (!product) throw new ErrorResponse("No product found!");
-    res.json(product);
+    results.results = await productModel
+      .find({
+        title: { $regex: title, $options: "$i" },
+      })
+      .limit(limit)
+      .skip(startIndex)
+      .exec();
+    res.paginated = results;
+    if (!results.results) throw new ErrorResponse("No product found!");
+    res.json(results);
   } catch (error) {
     next(error);
   }
@@ -38,15 +73,47 @@ const getProductById = async (req, res, next) => {
 };
 
 const getProductsByCategorie = async (req, res, next) => {
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+  const {
+    params: { categorie },
+  } = req;
+  const productCount = await productModel.countDocuments({
+    categorie: { $regex: categorie, $options: "$i" },
+  });
+  console.log(productCount);
+  const totalPages = Math.ceil(productCount / limit);
+
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+
+  console.log(startIndex, endIndex);
+
+  const results = {};
+
+  if (endIndex < (await productModel.countDocuments().exec()))
+    results.next = {
+      page: page,
+      limit,
+    };
+  if (startIndex > 0) {
+    results.previous = {
+      page: page - 1,
+      limit,
+    };
+  }
+  results.totalPages = totalPages;
   try {
-    const {
-      params: { categorie },
-    } = req;
-    const products = await productModel.find({
-      categorie: { $regex: categorie, $options: "$i" },
-    });
-    if (!products) throw new ErrorResponse("No product found!");
-    res.json(products);
+    results.results = await productModel
+      .find({
+        categorie: { $regex: categorie, $options: "$i" },
+      })
+      .limit(limit)
+      .skip(startIndex)
+      .exec();
+    res.paginated = results;
+    if (!results.results) throw new ErrorResponse("No product found!");
+    res.json(results);
   } catch (error) {
     next(error);
   }
